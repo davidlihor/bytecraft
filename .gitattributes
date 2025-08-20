@@ -1,0 +1,15 @@
+app/src/main/webapp/resources/**/*.png   filter=lfs diff=lfs merge=lfs -text
+app/src/main/webapp/resources/**/*.jpg   filter=lfs diff=lfs merge=lfs -text
+app/src/main/webapp/resources/**/*.jpeg  filter=lfs diff=lfs merge=lfs -text
+app/src/main/webapp/resources/**/*.gif   filter=lfs diff=lfs merge=lfs -text
+app/src/main/webapp/resources/**/*.svg   filter=lfs diff=lfs merge=lfs -text
+app/src/main/webapp/resources/**/*.ico   filter=lfs diff=lfs merge=lfs -text
+
+app/src/main/webapp/resources/**/*.woff  filter=lfs diff=lfs merge=lfs -text
+app/src/main/webapp/resources/**/*.woff2 filter=lfs diff=lfs merge=lfs -text
+app/src/main/webapp/resources/**/*.ttf   filter=lfs diff=lfs merge=lfs -text
+app/src/main/webapp/resources/**/*.eot   filter=lfs diff=lfs merge=lfs -text
+app/src/main/webapp/resources/**/*.otf   filter=lfs diff=lfs merge=lfs -text
+
+app/src/main/webapp/resources/**/*.mp4   filter=lfs diff=lfs merge=lfs -text
+app/src/main/webapp/resources/**/*.mov   filter=lfs diff=lfs merge=lfs -text

@@ -1,0 +1,58 @@
+services:
+  mysql:
+    container_name: mysql
+    image: davidlihor/xprofile-db
+    build:
+      context: ./docker/db
+      dockerfile: Dockerfile
+    environment:
+      - MYSQL_ROOT_PASSWORD=mysqlpw
+      - MYSQL_DATABASE=accounts
+    ports:
+      - 3306:3306
+    volumes:
+      - db_data:/var/lib/mysql
+
+  app:
+    container_name: app
+    image: davidlihor/xprofile-app
+    build:
+      context: .
+      dockerfile: docker/app/Dockerfile
+    ports:
+      - 8080:8080
+    volumes:
+      - app_data:/usr/local/tomcat/webapps
+    depends_on:
+      - mysql
+      - memcache
+      - rabbitmq
+
+  web:
+    container_name: web
+    image: davidlihor/xprofile-web
+    build:
+      context: ./docker/web
+    ports:
+      - 90:80
+    depends_on:
+      - app
+
+  memcache:
+    container_name: memcache
+    image: memcached
+    ports:
+      - 11211:11211
+  
+  rabbitmq:
+    container_name: rabbitmq
+    image: rabbitmq
+    environment:
+      - RABBITMQ_DEFAULT_USER=root
+      - RABBITMQ_DEFAULT_PASS=rmqpw
+    ports:
+      - 5672:5672
+
+volumes:
+  app_data: {}
+  db_data: {}

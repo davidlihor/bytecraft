@@ -1,0 +1,14 @@
+# Maven build
+target/
+
+# IntelliJ/Eclipse
+*.iml
+.idea/
+*.class
+
+# Logs
+*.log
+
+# Fișiere temporare
+*.swp
+.DS_Store
