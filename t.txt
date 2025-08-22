@@ -1,0 +1,5 @@
+feat: add Kubernetes deployment and service configurations for bytecraft application
+chore: update .gitignore to include devcerts
+fix: correct memcached references in configuration files
+fix: update MySQL user credentials in db_backup.sql
+chore: enhance start.sh script for certificate generation and Kubernetes secret management

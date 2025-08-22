@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: byte-rmq
+  labels:
+    app: byte-rmq
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: byte-rmq
+  template:
+    metadata:
+      labels:
+        app: byte-rmq
+    spec:
+      containers:
+      - name: byte-db
+        image: rabbitmq
+        env:
+          - name: RABBITMQ_DEFAULT_USER
+            value: guest
+          - name: RABBITMQ_DEFAULT_PASS
+            valueFrom:
+              secretKeyRef:
+                name: app-secret
+                key: rabbitmq_password
+        ports:
+        - name: bytermq-port
+          containerPort: 5672
