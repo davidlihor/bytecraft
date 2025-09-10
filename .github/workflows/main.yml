@@ -36,12 +36,11 @@ jobs:
             -Dsonar.login=${{ secrets.SONAR_TOKEN }} \
             -Dsonar.organization=${{ secrets.SONAR_ORGANIZATION }} \
             -Dsonar.projectKey=${{ secrets.SONAR_PROJECT_KEY }} \
-            -Dsonar.sources=app/src/main/java \
-            -Dsonar.tests=app/src/test/java \
-            -Dsonar.junit.reportPaths=app/target/surefire-reports/ \
-            -Dsonar.coverage.jacoco.xmlReportPaths=app/target/site/jacoco/jacoco.xml 
+            -Dsonar.sources=src/ \
+            -Dsonar.junit.reportsPath=app/target/surefire-reports/ \
+            -Dsonar.jacoco.reportsPath=app/target/jacoco.exec \
             -Dsonar.java.checkstyle.reportPaths=app/target/checkstyle-result.xml \
-            -Dsonar.java.binaries=app/target/test-classes/com/bytecraft/account/controllerTest/
+            -Dsonar.java.binaries=app/target/test-classes/com/visualpathit/account/controllerTest/
 
       - name: SonarQube Quality Gate Check
         id: sonarqube-quality-gate-check
