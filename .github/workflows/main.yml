@@ -47,8 +47,8 @@ jobs:
 
       - name: Debug LFS files
         run: |
-          grep -R "version https://git-lfs.github.com/spec/v1" . || echo OK
-          ls . 
+          grep -R "version https://git-lfs.github.com/spec/v1" ./app/src/main/webapp/resources/Images || echo OK
+          ls -lh ./app/src/main/webapp/resources/Images
 
       - name: Maven test
         working-directory: ./app
