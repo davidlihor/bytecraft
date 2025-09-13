@@ -19,11 +19,16 @@ jobs:
           lfs: true
           fetch-depth: 0
 
-      - name: Install Git LFS
-        run: git lfs install --local
+      - name: Ensure LFS active
+        run: |
+          git lfs install --local
+          unset GIT_LFS_SKIP_SMUDGE || true
 
-      - name: Pull LFS files
-        run: git lfs pull
+      - name: Fetch and checkout LFS files
+        run: |
+          git lfs fetch --all
+          git lfs checkout
+          git lfs ls-files
 
       - name: Maven test
         working-directory: ./app
