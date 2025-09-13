@@ -111,7 +111,7 @@ jobs:
       - name: Debug LFS files
         run: |
           grep -R "version https://git-lfs.github.com/spec/v1" ./ || echo "No LFS pointers"
-          ls -Rlh path/to/your/assets
+          ls -Rlh ./app/src/main/webapp/resources/Images
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
