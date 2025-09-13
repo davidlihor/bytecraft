@@ -19,15 +19,29 @@ jobs:
           lfs: true
           fetch-depth: 0
 
-      - name: Ensure LFS active
+      - name: Install Git LFS
         run: |
-          git lfs install --local
-          unset GIT_LFS_SKIP_SMUDGE || true
+          git lfs install
 
-      - name: Fetch and checkout LFS files
+      - name: Create list of LFS objects
+        id: list-lfs
         run: |
-          git lfs fetch --all
-          git lfs checkout
+          git lfs ls-files -l | awk '{print $2}' | sort > .lfs-assets-id
+
+      - name: Restore LFS cache
+        uses: actions/cache@v3
+        id: lfs-cache
+        with:
+          path: |
+            .git/lfs/objects
+            .git/lfs/tmp
+          key: ${{ runner.os }}-lfs-${{ hashFiles('.lfs-assets-id') }}-v1
+          restore-keys: |
+            ${{ runner.os }}-lfs-
+
+      - name: Pull LFS objects
+        run: |
+          git lfs pull --all
 
       - name: Maven test
         working-directory: ./app
@@ -78,12 +92,28 @@ jobs:
           fetch-depth: 0
 
       - name: Install Git LFS
-        run: git lfs install --local
-
-      - name: Fetch and checkout LFS files
         run: |
-          git lfs fetch --all
-          git lfs checkout
+          git lfs install
+
+      - name: Create list of LFS objects
+        id: list-lfs
+        run: |
+          git lfs ls-files -l | awk '{print $2}' | sort > .lfs-assets-id
+
+      - name: Restore LFS cache
+        uses: actions/cache@v3
+        id: lfs-cache
+        with:
+          path: |
+            .git/lfs/objects
+            .git/lfs/tmp
+          key: ${{ runner.os }}-lfs-${{ hashFiles('.lfs-assets-id') }}-v1
+          restore-keys: |
+            ${{ runner.os }}-lfs-
+
+      - name: Pull LFS objects
+        run: |
+          git lfs pull --all
 
       - name: Build and Upload image to ECR
         uses: appleboy/docker-ecr-action@master
