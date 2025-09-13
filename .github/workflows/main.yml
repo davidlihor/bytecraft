@@ -45,6 +45,11 @@ jobs:
           git lfs checkout
           git lfs pull
 
+      - name: Debug LFS files
+        run: |
+          grep -R "version https://git-lfs.github.com/spec/v1" . || echo OK
+          ls . 
+
       - name: Maven test
         working-directory: ./app
         run: mvn test
