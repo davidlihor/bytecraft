@@ -28,7 +28,6 @@ jobs:
         run: |
           git lfs fetch --all
           git lfs checkout
-          git lfs ls-files
 
       - name: Maven test
         working-directory: ./app
@@ -81,8 +80,10 @@ jobs:
       - name: Install Git LFS
         run: git lfs install --local
 
-      - name: Pull LFS files
-        run: git lfs pull
+      - name: Fetch and checkout LFS files
+        run: |
+          git lfs fetch --all
+          git lfs checkout
 
       - name: Build and Upload image to ECR
         uses: appleboy/docker-ecr-action@master
