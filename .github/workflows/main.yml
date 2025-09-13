@@ -1,12 +1,16 @@
 name: ByteCraft Actions
-on: workflow_dispatch
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
 env:
   AWS_REGION: us-east-1
   ECR_REPOSITORY: bytecraft-app
   EKS_CLUSTER: bytecraft-eks
 
 jobs:
-  testing:
+  test-and-scan:
     runs-on: ubuntu-latest
     steps:
       - name: Code checkout
@@ -50,13 +54,13 @@ jobs:
       - name: SonarQube Quality Gate Check
         id: sonarqube-quality-gate-check
         uses: sonarsource/sonarqube-quality-gate-action@master
-        timeout-minutes: 5
+        timeout-minutes: 3
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_URL }}
 
   build-and-publish:
-    needs: testing
+    needs: test-and-scan
     runs-on: ubuntu-latest
     steps:
       - name: Checkout source code
