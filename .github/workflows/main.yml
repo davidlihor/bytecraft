@@ -102,37 +102,38 @@ jobs:
         run: |
           git lfs install
 
-      - name: Create list of LFS objects
-        id: list-lfs
-        run: |
-          git lfs ls-files -l | awk '{print $2}' | sort > .lfs-assets-id
-
-      - name: Restore LFS cache
-        uses: actions/cache@v3
-        id: lfs-cache
-        with:
-          path: |
-            .git/lfs/objects
-            .git/lfs/tmp
-          key: ${{ runner.os }}-lfs-${{ hashFiles('.lfs-assets-id') }}-v1
-          restore-keys: |
-            ${{ runner.os }}-lfs-
-
-      - name: Pull and Checkout LFS objects
+      - name: Pull and checkout all LFS files
         run: |
           git lfs fetch --all
           git lfs checkout
           git lfs pull
 
-      - name: Build and Upload image to ECR
-        uses: appleboy/docker-ecr-action@master
+      - name: Debug LFS files
+        run: |
+          grep -R "version https://git-lfs.github.com/spec/v1" ./ || echo "No LFS pointers"
+          ls -Rlh path/to/your/assets
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
         with:
-          access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          registry: ${{ secrets.REGISTRY }}
-          repo: ${{ env.ECR_REPOSITORY }}
-          region: ${{ env.AWS_REGION }}
-          tags: latest,${{ github.run_number }}
-          daemon_off: false
-          dockerfile: ./docker/app/Dockerfile
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Login to ECR
+        uses: aws-actions/amazon-ecr-login@v2
+        with:
+          mask-password: 'true'
+
+      - name: Setup Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v4
+        with:
           context: .
+          file: ./docker/app/Dockerfile
+          push: true
+          tags: |
+            ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:latest
+            ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:${{ github.run_number }}
