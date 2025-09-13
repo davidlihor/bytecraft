@@ -135,5 +135,5 @@ jobs:
           file: ./docker/app/Dockerfile
           push: true
           tags: |
-            ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:latest
-            ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:${{ github.run_number }}
+            ${{ env.ECR_REPOSITORY }}:latest
+            ${{ env.ECR_REPOSITORY }}:${{ github.run_number }}
