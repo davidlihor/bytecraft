@@ -11,6 +11,11 @@ jobs:
     steps:
       - name: Code checkout
         uses: actions/checkout@v4
+        with:
+          lfs: true
+
+      - name: Pull LFS files
+        run: git lfs pull
 
       - name: Maven test
         working-directory: ./app
@@ -56,7 +61,12 @@ jobs:
     steps:
       - name: Checkout source code
         uses: actions/checkout@v4
-    
+        with:
+          lfs: true
+
+      - name: Pull LFS files
+        run: git lfs pull
+
       - name: Build and Upload image to ECR
         uses: appleboy/docker-ecr-action@master
         with:
