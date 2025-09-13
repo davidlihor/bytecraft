@@ -41,7 +41,7 @@ jobs:
 
       - name: Pull LFS objects
         run: |
-          git lfs pull --all
+          git lfs pull
 
       - name: Maven test
         working-directory: ./app
@@ -113,7 +113,7 @@ jobs:
 
       - name: Pull LFS objects
         run: |
-          git lfs pull --all
+          git lfs pull
 
       - name: Build and Upload image to ECR
         uses: appleboy/docker-ecr-action@master
