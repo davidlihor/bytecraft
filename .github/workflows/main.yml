@@ -39,8 +39,10 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-lfs-
 
-      - name: Pull LFS objects
+      - name: Pull and Checkout LFS objects
         run: |
+          git lfs fetch --all
+          git lfs checkout
           git lfs pull
 
       - name: Maven test
@@ -111,8 +113,10 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-lfs-
 
-      - name: Pull LFS objects
+      - name: Pull and Checkout LFS objects
         run: |
+          git lfs fetch --all
+          git lfs checkout
           git lfs pull
 
       - name: Build and Upload image to ECR
