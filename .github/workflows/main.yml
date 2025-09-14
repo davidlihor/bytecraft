@@ -98,20 +98,11 @@ jobs:
           lfs: true
           fetch-depth: 0
 
-      - name: Install Git LFS
+      - name: Debug LFS files after checkout
         run: |
-          git lfs install
-
-      - name: Pull and checkout all LFS files
-        run: |
-          git lfs fetch --all
-          git lfs checkout
-          git lfs pull
-
-      - name: Debug LFS files
-        run: |
-          grep -R "version https://git-lfs.github.com/spec/v1" ./ || echo "No LFS pointers"
-          ls -Rlh ./app/src/main/webapp/resources/Images
+          echo "Verify LFS pointers"
+          grep -r "version https://git-lfs.github.com/spec/v1" ./app/src/main/webapp/resources/Images || echo "OK: LFS Pointers not found."
+          ls -lh ./app/src/main/webapp/resources/Images
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4

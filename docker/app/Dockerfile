@@ -1,9 +1,9 @@
 FROM maven:3.9.9-eclipse-temurin-21-jammy AS build
 WORKDIR /app
 
-RUN apt-get update && apt-get install -y git git-lfs
-COPY . .
-RUN git lfs pull
+COPY app/src ./src
+COPY app/pom.xml ./pom.xml
+
 RUN mvn dependency:go-offline -B
 RUN mvn clean package -DskipTests
 
