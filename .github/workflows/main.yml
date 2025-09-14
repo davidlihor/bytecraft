@@ -135,5 +135,5 @@ jobs:
           file: ./docker/app/Dockerfile
           push: true
           tags: |
-            ${{ env.ECR_REPOSITORY }}:latest
-            ${{ env.ECR_REPOSITORY }}:${{ github.run_number }}
+            ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/${{ env.ECR_REPOSITORY }}:latest
+            ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/${{ env.ECR_REPOSITORY }}:${{ github.run_number }}
