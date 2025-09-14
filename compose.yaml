@@ -15,14 +15,12 @@ services:
 
   app:
     container_name: app
-    image: davidlihor/xprofile-app
+    image: 873727239675.dkr.ecr.us-east-1.amazonaws.com/bytecraft-app:latest
     build:
       context: .
       dockerfile: docker/app/Dockerfile
     ports:
       - 8080:8080
-    volumes:
-      - app_data:/usr/local/tomcat/webapps
     depends_on:
       - mysql
       - memcached
@@ -54,5 +52,4 @@ services:
       - 5672:5672
 
 volumes:
-  app_data: {}
   db_data: {}

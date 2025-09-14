@@ -4,15 +4,6 @@ WORKDIR /app
 COPY app/src ./src
 COPY app/pom.xml ./pom.xml
 
-RUN echo ">>> Verify files at build:" && \
-    ls -lh ./src/main/webapp/resources/Images && \
-    if grep -r "version https://git-lfs.github.com/spec/v1" ./src/main/webapp/resources; then \
-      echo ">>> ERROR: LFS Pointers found after COPY!"; \
-      exit 1; \
-    else \
-      echo ">>> No LFS Files found."; \
-    fi
-
 RUN mvn dependency:go-offline -B
 RUN mvn clean package -DskipTests
 
