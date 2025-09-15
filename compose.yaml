@@ -1,7 +1,7 @@
 services:
   mysql:
     container_name: mysql
-    image: davidlihor/xprofile-db
+    image: davidlihor/bytecraft-db
     build:
       context: ./docker/db
       dockerfile: Dockerfile
@@ -15,7 +15,7 @@ services:
 
   app:
     container_name: app
-    image: 873727239675.dkr.ecr.us-east-1.amazonaws.com/bytecraft-app:latest
+    image: davidlihor/bytecraft-app
     build:
       context: .
       dockerfile: docker/app/Dockerfile
@@ -28,7 +28,7 @@ services:
 
   web:
     container_name: web
-    image: davidlihor/xprofile-web
+    image: davidlihor/bytecraft-web
     build:
       context: ./docker/web
     ports:

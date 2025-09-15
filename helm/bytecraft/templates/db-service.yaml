@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql
+spec:
+  type: ClusterIP
+  selector:
+    app: byte-db
+  ports:
+  - port: 3306
+    targetPort: bytedb-port
+    protocol: TCP

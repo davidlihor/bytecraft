@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: byte-db
+  labels:
+    app: byte-db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: byte-db
+  template:
+    metadata:
+      labels:
+        app: byte-db
+    spec:
+      initContainers:
+      - name: busybox
+        image: busybox:latest
+        args: ["rm", "-rf", "/var/lib/mysql/lost+found"]
+        volumeMounts:
+          - name: db-data
+            mountPath: /var/lib/mysql
+
+      containers:
+      - name: byte-db
+        image: davidlihor/bytecraft-db
+        env:
+          - name: MYSQL_ROOT_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: app-secret
+                key: mysql_password
+        ports:
+        - name: bytedb-port
+          containerPort: 3306
+        volumeMounts:
+        - name: db-data
+          mountPath: /var/lib/mysql
+
+      volumes:
+      - name: db-data
+        persistentVolumeClaim:
+          claimName: db-pvc

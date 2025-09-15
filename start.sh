@@ -18,7 +18,9 @@ if [ ! -d "$CERTS_DIR" ]; then
 fi
 
 cd "$CERTS_DIR"
+apt update && apt install libnss3-tools -y
 
+mkcert -install
 mkcert -key-file bytecraft-tls.key \
        -cert-file bytecraft-tls.crt \
        app.bytecraft.local

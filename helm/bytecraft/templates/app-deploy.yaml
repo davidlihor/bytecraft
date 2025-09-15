@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: byte-app
+  labels:
+    app: byte-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: byte-app
+  template:
+    metadata:
+      labels:
+        app: byte-app
+    spec:
+      initContainers:
+      - name: init-mysql
+        image: busybox
+        command: ["sh", "-c", "until nslookup mysql.$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace).svc.cluster.local; do echo Waiting for mysql.; sleep 2; done;"]
+      - name: init-memcache
+        image: busybox
+        command: ["sh", "-c", "until nslookup memcached.$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace).svc.cluster.local; do echo Waiting for memcache.; sleep 2; done;"]
+      - name: init-rabbitmq
+        image: busybox
+        command: ["sh", "-c", "until nslookup rabbitmq.$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace).svc.cluster.local; do echo Waiting for rabbitmq.; sleep 2; done;"]
+
+      containers:
+      - name: byte-app
+        image: {{ .Values.image }}:{{ .Values.tag }}
+        env:
+          - name: RABBITMQ_HOST
+            value: "rabbitmq"
+          - name: RABBITMQ_PORT
+            value: "5672"
+          - name: RABBITMQ_USERNAME
+            value: "guest"
+          - name: RABBITMQ_PASSWORD
+            value: "rmqpw"
+        ports:
+        - name: byteapp-port
+          containerPort: 8080

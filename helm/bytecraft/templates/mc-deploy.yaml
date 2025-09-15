@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: byte-mc
+  labels:
+    app: byte-mc
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: byte-mc
+  template:
+    metadata:
+      labels:
+        app: byte-mc
+    spec:
+      containers:
+      - name: byte-mc
+        image: memcached
+        ports:
+        - name: bytemc-port
+          containerPort: 11211
