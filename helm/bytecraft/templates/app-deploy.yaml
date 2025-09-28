@@ -29,14 +29,53 @@ spec:
       - name: byte-app
         image: {{ .Values.image }}:{{ .Values.tag }}
         env:
-          - name: RABBITMQ_HOST
-            value: "rabbitmq"
+          - name: JDBC_URL
+            valueFrom:
+              secretKeyRef:
+                name: app-secret
+                key: jdbc_url
+          - name: JDBC_USER
+            valueFrom:
+              configMapKeyRef:
+                name: app-configmap
+                key: jdbc_user
+          - name: JDBC_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: app-secret
+                key: mysql_password
+    
+          - name: MEMCACHED_ACTIVE_HOST
+            valueFrom:
+              configMapKeyRef:
+                name: app-configmap
+                key: memcached_active_host
+          - name: MEMCACHED_ACTIVE_PORT
+            valueFrom:
+              configMapKeyRef:
+                name: app-configmap
+                key: memcached_active_port
+
+          - name: RABBITMQ_ADDRESS
+            valueFrom:
+              configMapKeyRef:
+                name: app-configmap
+                key: rabbitmq_address
           - name: RABBITMQ_PORT
-            value: "5672"
+            valueFrom:
+              configMapKeyRef:
+                name: app-configmap
+                key: rabbitmq_port
           - name: RABBITMQ_USERNAME
-            value: "guest"
+            valueFrom:
+              configMapKeyRef:
+                name: app-configmap
+                key: rabbitmq_username
           - name: RABBITMQ_PASSWORD
-            value: "rmqpw"
+            valueFrom:
+              secretKeyRef:
+                name: app-secret
+                key: rabbitmq_password
         ports:
         - name: byteapp-port
           containerPort: 8080

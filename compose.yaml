@@ -19,6 +19,16 @@ services:
     build:
       context: .
       dockerfile: docker/app/Dockerfile
+    environment:
+      - JDBC_URL=jdbc:mysql://mysql:3306/accounts
+      - JDBC_USER=root
+      - JDBC_PASSWORD=mysqlpw
+      - MEMCACHED_ACTIVE_HOST=memcached
+      - MEMCACHED_ACTIVE_PORT=11211
+      - RABBITMQ_ADDRESS=rabbitmq
+      - RABBITMQ_PORT=5672
+      - RABBITMQ_USERNAME=root
+      - RABBITMQ_PASSWORD=rmqpw
     ports:
       - 8080:8080
     depends_on:

@@ -1,6 +1,6 @@
 # Maven build
 target/
-devcerts/**
+**/devcerts
 
 # IntelliJ/Eclipse
 *.iml

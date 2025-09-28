@@ -6,23 +6,20 @@ import org.springframework.stereotype.Component;
 @Component
 public class Components {
 	
-	@Value("${memcached.active.host}")
-    private String activeHost;
-	@Value("${memcached.active.port}")
-    private String activePort;
+
+  private String activeHost;
+  private String activePort;
+
 	@Value("${memcached.standBy.host}")
     private String standByHost;
 	@Value("${memcached.standBy.port}")
     private String standByPort;
 	
-	@Value("${rabbitmq.address}")
-    private String rabbitMqHost;
-	@Value("${rabbitmq.port}")
-    private String rabbitMqPort;
-	@Value("${rabbitmq.username}")
-    private String rabbitMqUser;
-	@Value("${rabbitmq.password}")
-    private String rabbitMqPassword;
+
+  private String rabbitMqHost;
+  private String rabbitMqPort;
+  private String rabbitMqUser;
+  private String rabbitMqPassword;
 	
 	@Value("${elasticsearch.host}")
     private String elasticsearchHost;
@@ -34,12 +31,14 @@ public class Components {
     private String elasticsearchNode;
 	
 	
-	public String getActiveHost() {
-		return activeHost;
-	}
-	public String getActivePort() {
-		return activePort;
-	}
+    public String getActiveHost() {
+        return System.getenv("MEMCACHED_ACTIVE_HOST");
+    }
+
+    public String getActivePort() {
+        return System.getenv("MEMCACHED_ACTIVE_PORT");
+    }
+
 	public String getStandByHost() {
 		return standByHost;
 	}
@@ -58,27 +57,35 @@ public class Components {
 	public void setStandByPort(String standByPort) {
 		this.standByPort = standByPort;
 	}
-	public String getRabbitMqHost() {
-		return rabbitMqHost;
-	}
+
+    public String getRabbitMqHost() {
+        return System.getenv("RABBITMQ_ADDRESS");
+    }
+
 	public void setRabbitMqHost(String rabbitMqHost) {
 		this.rabbitMqHost = rabbitMqHost;
 	}
-	public String getRabbitMqPort() {
-		return rabbitMqPort;
-	}
+
+    public String getRabbitMqPort() {
+        return System.getenv("RABBITMQ_PORT");
+    }
+
+
 	public void setRabbitMqPort(String rabbitMqPort) {
 		this.rabbitMqPort = rabbitMqPort;
 	}
-	public String getRabbitMqUser() {
-		return rabbitMqUser;
-	}
+    public String getRabbitMqUser() {
+        return System.getenv("RABBITMQ_USERNAME");
+    }
+
 	public void setRabbitMqUser(String rabbitMqUser) {
 		this.rabbitMqUser = rabbitMqUser;
 	}
-	public String getRabbitMqPassword() {
-		return rabbitMqPassword;
-	}
+
+    public String getRabbitMqPassword() {
+        return System.getenv("RABBITMQ_PASSWORD");
+    }
+
 	public void setRabbitMqPassword(String rabbitMqPassword) {
 		this.rabbitMqPassword = rabbitMqPassword;
 	}

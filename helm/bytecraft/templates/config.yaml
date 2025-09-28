@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-configmap
+data:
+  rabbitmq_address: rabbitmq
+  rabbitmq_port: "5672"
+  rabbitmq_username: root
+  memcached_active_host: memcached
+  memcached_active_port: "11211"
+  jdbc_user: root

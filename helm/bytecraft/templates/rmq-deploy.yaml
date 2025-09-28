@@ -19,7 +19,7 @@ spec:
         image: rabbitmq
         env:
           - name: RABBITMQ_DEFAULT_USER
-            value: guest
+            value: root
           - name: RABBITMQ_DEFAULT_PASS
             valueFrom:
               secretKeyRef:
